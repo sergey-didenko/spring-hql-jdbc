@@ -27,7 +27,10 @@ import java.util.Date;
 /**
  * Example:
  * new TripleJoinPredicate<Entity, Entity2, Entity3, Long>().equal(1L, Entity_.entity2, Entity2_.entity3, Entity3_.id);
- *
+ * 
+ * Convert LocalDate to Date:
+ * Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+ * 
  * @param <E> entity
  * @param <E_2> entity_2, who joining to entity
  * @param <E_2> entity_3, who joining to entity_2
@@ -47,16 +50,10 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
                                   SingularAttribute<E_2, E_3> join2,
                                   SingularAttribute<E_3, A> join3,
                                   JoinType joinType) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root,
-                                         CriteriaQuery<?> query,
-                                         CriteriaBuilder cb) {
-                final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
-                final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
-
-                return cb.equal(joinOneJoinTwoJoin.get(join3), attribute);
-            }
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.equal(joinOneJoinTwoJoin.get(join3), attribute);
         };
     }
 
@@ -74,14 +71,10 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
                                  SingularAttribute<E_2, E_3> join2,
                                  SingularAttribute<E_3, String> join3,
                                  JoinType joinType) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
-                final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
-
-                return cb.like(joinOneJoinTwoJoin.get(join3), "%" + attribute + "%");
-            }
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.like(joinOneJoinTwoJoin.get(join3), "%" + attribute + "%");
         };
     }
 
@@ -90,18 +83,20 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
     public Specification<E> greaterThan(LocalDate attribute,
                                         SingularAttribute<E, E_2> join,
                                         SingularAttribute<E_2, E_3> join2,
-                                        SingularAttribute<E_3, Date> join3) {
+                                        SingularAttribute<E_3, LocalDate> join3) {
         return this.greaterThan(attribute, join, join2, join3, JoinType.LEFT);
     }
 
     public Specification<E> greaterThan(LocalDate attribute,
                                         SingularAttribute<E, E_2> join,
                                         SingularAttribute<E_2, E_3> join2,
-                                        SingularAttribute<E_3, Date> join3,
+                                        SingularAttribute<E_3, LocalDate> join3,
                                         JoinType joinType) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.greaterThan(date, join, join2, join3, joinType);
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.greaterThan(joinOneJoinTwoJoin.get(join3), attribute);
+        };
     }
 
     public Specification<E> greaterThan(Date attribute,
@@ -116,14 +111,10 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
                                         SingularAttribute<E_2, E_3> join2,
                                         SingularAttribute<E_3, Date> join3,
                                         JoinType joinType) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
-                final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
-
-                return cb.greaterThan(joinOneJoinTwoJoin.get(join3), attribute);
-            }
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.greaterThan(joinOneJoinTwoJoin.get(join3), attribute);
         };
     }
 
@@ -132,18 +123,20 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
     public Specification<E> lessThan(LocalDate attribute,
                                      SingularAttribute<E, E_2> join,
                                      SingularAttribute<E_2, E_3> join2,
-                                     SingularAttribute<E_3, Date> join3) {
+                                     SingularAttribute<E_3, LocalDate> join3) {
         return this.lessThan(attribute, join, join2, join3, JoinType.LEFT);
     }
 
     public Specification<E> lessThan(LocalDate attribute,
                                      SingularAttribute<E, E_2> join,
                                      SingularAttribute<E_2, E_3> join2,
-                                     SingularAttribute<E_3, Date> join3,
+                                     SingularAttribute<E_3, LocalDate> join3,
                                      JoinType joinType) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.lessThan(date, join, join2, join3, joinType);
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.lessThan(joinOneJoinTwoJoin.get(join3), attribute);
+        };
     }
 
     public Specification<E> lessThan(Date attribute,
@@ -158,14 +151,10 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
                                      SingularAttribute<E_2, E_3> join2,
                                      SingularAttribute<E_3, Date> join3,
                                      JoinType joinType) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
-                final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
-
-                return cb.lessThan(joinOneJoinTwoJoin.get(join3), attribute);
-            }
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.lessThan(joinOneJoinTwoJoin.get(join3), attribute);
         };
     }
 
@@ -174,18 +163,20 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
     public Specification<E> greaterThanOrEqualTo(LocalDate attribute,
                                                  SingularAttribute<E, E_2> join,
                                                  SingularAttribute<E_2, E_3> join2,
-                                                 SingularAttribute<E_3, Date> join3) {
+                                                 SingularAttribute<E_3, LocalDate> join3) {
         return this.greaterThanOrEqualTo(attribute, join, join2, join3, JoinType.LEFT);
     }
 
     public Specification<E> greaterThanOrEqualTo(LocalDate attribute,
                                                  SingularAttribute<E, E_2> join,
                                                  SingularAttribute<E_2, E_3> join2,
-                                                 SingularAttribute<E_3, Date> join3,
+                                                 SingularAttribute<E_3, LocalDate> join3,
                                                  JoinType joinType) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.greaterThanOrEqualTo(date, join, join2, join3, joinType);
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.greaterThanOrEqualTo(joinOneJoinTwoJoin.get(join3), attribute);
+        };
     }
 
     public Specification<E> greaterThanOrEqualTo(Date attribute,
@@ -200,14 +191,10 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
                                                  SingularAttribute<E_2, E_3> join2,
                                                  SingularAttribute<E_3, Date> join3,
                                                  JoinType joinType) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
-                final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
-
-                return cb.greaterThanOrEqualTo(joinOneJoinTwoJoin.get(join3), attribute);
-            }
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.greaterThanOrEqualTo(joinOneJoinTwoJoin.get(join3), attribute);
         };
     }
 
@@ -216,18 +203,20 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
     public Specification<E> lessOrEqualThan(LocalDate attribute,
                                             SingularAttribute<E, E_2> join,
                                             SingularAttribute<E_2, E_3> join2,
-                                            SingularAttribute<E_3, Date> join3) {
+                                            SingularAttribute<E_3, LocalDate> join3) {
         return this.lessOrEqualThan(attribute, join, join2, join3, JoinType.LEFT);
     }
 
     public Specification<E> lessOrEqualThan(LocalDate attribute,
                                             SingularAttribute<E, E_2> join,
                                             SingularAttribute<E_2, E_3> join2,
-                                            SingularAttribute<E_3, Date> join3,
+                                            SingularAttribute<E_3, LocalDate> join3,
                                             JoinType joinType) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.lessOrEqualThan(date, join, join2, join3, joinType);
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.lessThanOrEqualTo(joinOneJoinTwoJoin.get(join3), attribute);
+        };
     }
 
     public Specification<E> lessOrEqualThan(Date attribute,
@@ -242,14 +231,10 @@ public class TripleJoinPredicate<E, E_2, E_3, A> {
                                             SingularAttribute<E_2, E_3> join2,
                                             SingularAttribute<E_3, Date> join3,
                                             JoinType joinType) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
-                final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
-
-                return cb.lessThanOrEqualTo(joinOneJoinTwoJoin.get(join3), attribute);
-            }
+        return (root, query, cb) -> {
+            final Join<E, E_2> elementJoinOneJoin = root.join(join, joinType);
+            final Join<E_2, E_3> joinOneJoinTwoJoin = elementJoinOneJoin.join(join2, joinType);
+            return cb.lessThanOrEqualTo(joinOneJoinTwoJoin.get(join3), attribute);
         };
     }
 

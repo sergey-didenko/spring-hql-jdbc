@@ -27,7 +27,10 @@ import java.util.Date;
 /**
  * Example:
  * new JoinPredicate<Entity, Long>().equal(1L, Entity_.id);
- *
+ * 
+ * Convert LocalDate to Date:
+ * Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+ * 
  * @param <E> entity
  * @param <A> attribute for predicate
  */
@@ -35,109 +38,66 @@ public class JoinPredicate<E, A> {
 
     public Specification<E> equal(A attribute,
                                   SingularAttribute<E, A> join) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get(join), attribute);
-            }
-        };
+        return (root, query, cb) -> cb.equal(root.get(join), attribute);
     }
 
     //
 
     public Specification<E> like(String attribute,
                                  SingularAttribute<E, String> join) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.like(root.get(join), "%" + attribute + "%");
-            }
-        };
+        return (root, query, cb) -> cb.like(root.get(join), "%" + attribute + "%");
     }
 
     //
 
     public Specification<E> greaterThan(LocalDate attribute,
-                                        SingularAttribute<E, Date> join) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.greaterThan(date, join);
+                                        SingularAttribute<E, LocalDate> join) {
+        return (root, query, cb) -> cb.greaterThan(root.get(join), attribute);
     }
 
     public Specification<E> greaterThan(Date attribute,
                                         SingularAttribute<E, Date> join) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.greaterThan(root.get(join), attribute);
-            }
-        };
+        return (root, query, cb) -> cb.greaterThan(root.get(join), attribute);
     }
 
     //
 
     public Specification<E> lessThan(LocalDate attribute,
-                                     SingularAttribute<E, Date> join) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.lessThan(date, join);
+                                     SingularAttribute<E, LocalDate> join) {
+        return (root, query, cb) -> cb.lessThan(root.get(join), attribute);
     }
 
     public Specification<E> lessThan(Date attribute,
                                      SingularAttribute<E, Date> join) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.lessThan(root.get(join), attribute);
-            }
-        };
+        return (root, query, cb) -> cb.lessThan(root.get(join), attribute);
     }
 
     //
 
     public Specification<E> greaterThanOrEqualTo(LocalDate attribute,
-                                                 SingularAttribute<E, Date> join) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.greaterThanOrEqualTo(date, join);
+                                                 SingularAttribute<E, LocalDate> join) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(join), attribute);
     }
 
     public Specification<E> greaterThanOrEqualTo(Date attribute,
                                                  SingularAttribute<E, Date> join) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.greaterThanOrEqualTo(root.get(join), attribute);
-            }
-        };
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(join), attribute);
     }
 
     //
 
     public Specification<E> lessOrEqualThan(LocalDate attribute,
-                                            SingularAttribute<E, Date> join) {
-        final Date date = Date.from(attribute.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        return this.lessOrEqualThan(date, join);
+                                            SingularAttribute<E, LocalDate> join) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(join), attribute);
     }
 
     public Specification<E> lessOrEqualThan(Date attribute, SingularAttribute<E, Date> join) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.lessThanOrEqualTo(root.get(join), attribute);
-            }
-        };
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(join), attribute);
     }
 
     //
 
     public Specification<E> findAll(SingularAttribute<E, Long> entityIdAttribute) {
-        return new Specification<E>() {
-            @Override
-            public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.greaterThan(root.get(entityIdAttribute), 0L);
-            }
-        };
+        return (root, query, cb) -> cb.greaterThan(root.get(entityIdAttribute), 0L);
     }
 }
