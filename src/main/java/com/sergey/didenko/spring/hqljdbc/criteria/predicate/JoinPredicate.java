@@ -18,10 +18,8 @@ package com.sergey.didenko.spring.hqljdbc.criteria.predicate;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
 import javax.persistence.metamodel.SingularAttribute;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
