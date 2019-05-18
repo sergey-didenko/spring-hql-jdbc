@@ -17,10 +17,13 @@ limitations under the License.
 package com.sergey.didenko.spring.hqljdbc.repository;
 
 import com.sergey.didenko.spring.hqljdbc.config.LiquibaseConfiguration;
+import com.sergey.didenko.spring.hqljdbc.domain.Subject;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -29,10 +32,17 @@ import javax.transaction.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
+//TODO : Run with Liquibase
 @ContextConfiguration(classes = {LiquibaseConfiguration.class})
-@ComponentScan(basePackages = "com.sergey.didenko.spring.hqljdbc")
+@EntityScan(basePackageClasses = {
+        Subject.class
+})
+@EnableJpaRepositories(basePackageClasses = {
+        SubjectRepository.class
+})
 @DataJpaTest
 @Transactional
+@Rollback
 public class SubjectRepositoryTest {
 
     @Autowired
