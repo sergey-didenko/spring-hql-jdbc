@@ -3,6 +3,7 @@ package com.sergey.didenko.spring.hqljdbc.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "subject") //by default, using class name
 public class Subject {
 
     @Id

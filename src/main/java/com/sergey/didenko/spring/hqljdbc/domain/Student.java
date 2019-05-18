@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
+@Table(name = "student") //by default, using class name
 public class Student {
 
     @Id
