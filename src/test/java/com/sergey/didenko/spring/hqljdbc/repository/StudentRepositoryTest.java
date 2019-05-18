@@ -35,9 +35,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-//TODO : Run without Liquibase, hibernate will create tables
+//TODO : Run without Liquibase
 @TestPropertySource(properties = {
-        "spring.jpa.hibernate.ddl-auto=update",
         "spring.liquibase.enabled=false"
 })
 @EntityScan(basePackageClasses = {
