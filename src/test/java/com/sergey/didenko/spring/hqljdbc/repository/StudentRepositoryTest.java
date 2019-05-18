@@ -25,6 +25,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
@@ -54,6 +55,7 @@ public class StudentRepositoryTest {
     private StudentRepository studentRepository;
 
     @org.junit.jupiter.api.Test
+    @Sql("classpath:sql/check01.sql")
     public void studentRepository_check01() {
 
         assertThat(studentRepository).isNotNull();
