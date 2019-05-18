@@ -79,6 +79,11 @@ dependencies {
 	testCompile "junit:junit"
 }
 
+test {
+	systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+	useJUnitPlatform()
+}
+
 wrapper {
 	distributionUrl="https://services.gradle.org/distributions/gradle-5.0-all.zip"
 }
