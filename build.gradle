@@ -71,8 +71,11 @@ dependencies {
 	//compile('org.postgresql:postgresql')
 
     //[Test] utils
+	testRuntime('com.h2database:h2')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
+	testImplementation('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+	testImplementation('org.mockito:mockito-junit-jupiter:2.27.0')
 	testCompile "junit:junit"
 }
 

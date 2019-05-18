@@ -14,22 +14,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package com.sergey.didenko.spring.hqljdbc;
+package com.sergey.didenko.spring.hqljdbc.repository;
 
 import com.sergey.didenko.spring.hqljdbc.config.LiquibaseConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {LiquibaseConfiguration.class})
-@EnableAutoConfiguration
-public class MainTests {
+@ComponentScan(basePackages = "com.sergey.didenko.spring.hqljdbc")
+@DataJpaTest
+@Transactional
+public class SubjectRepositoryTest {
 
-	@org.junit.jupiter.api.Test
-	public void contextLoads() {
-	}
+    @Autowired
+    private SubjectRepository subjectRepository;
 
+    @org.junit.jupiter.api.Test
+    public void subjectRepository_check01() {
+        assertThat(subjectRepository).isNotNull();
+    }
 }
-
