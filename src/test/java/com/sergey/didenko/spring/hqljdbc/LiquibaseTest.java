@@ -20,6 +20,7 @@ import com.sergey.didenko.spring.hqljdbc.config.LiquibaseConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 //TODO : Run with Liquibase, but also need to add Context, like below
@@ -33,6 +34,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 //})
 //TODO : Or use AutoConfiguration
 @EnableAutoConfiguration
+//TODO : Run with Liquibase
+@TestPropertySource(properties = {
+        "spring.liquibase.enabled=true"
+})
 @ExtendWith(SpringExtension.class)
 public class LiquibaseTest {
 

@@ -20,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
@@ -28,10 +27,6 @@ import javax.transaction.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-//TODO : Run without Liquibase
-@TestPropertySource(properties = {
-        "spring.liquibase.enabled=false"
-})
 //TODO : Load DataSource, and JPA repositories (if @ContextConfiguration not specify)
 @DataJpaTest
 @Transactional
