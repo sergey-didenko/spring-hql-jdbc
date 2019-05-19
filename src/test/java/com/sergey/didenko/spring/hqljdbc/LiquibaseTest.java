@@ -19,7 +19,6 @@ package com.sergey.didenko.spring.hqljdbc;
 import com.sergey.didenko.spring.hqljdbc.config.LiquibaseConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -34,8 +33,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 //})
 //TODO : Or use AutoConfiguration
 @EnableAutoConfiguration
-//TODO : Load DataSource, and JPA repositories (if @ContextConfiguration not specify)
-@DataJpaTest
 @ExtendWith(SpringExtension.class)
 public class LiquibaseTest {
 

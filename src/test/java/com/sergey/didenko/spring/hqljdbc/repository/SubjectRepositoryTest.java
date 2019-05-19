@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(properties = {
         "spring.liquibase.enabled=false"
 })
+//TODO : Load DataSource, and JPA repositories (if @ContextConfiguration not specify)
 @DataJpaTest
 @Transactional
 @Rollback
