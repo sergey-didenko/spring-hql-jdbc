@@ -16,30 +16,22 @@ limitations under the License.
 
 package com.sergey.didenko.spring.hqljdbc.repository;
 
-import com.sergey.didenko.spring.hqljdbc.config.LiquibaseConfiguration;
-import com.sergey.didenko.spring.hqljdbc.domain.Subject;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@EntityScan(basePackageClasses = {
-        Subject.class
-})
-@EnableJpaRepositories(basePackageClasses = {
-        SubjectRepository.class
-})
-//TODO : Run with Liquibase, but also need to add Context, like above
-@ContextConfiguration(classes = {LiquibaseConfiguration.class})
 @ExtendWith(SpringExtension.class)
+//TODO : Run without Liquibase
+@TestPropertySource(properties = {
+        "spring.liquibase.enabled=false"
+})
 @DataJpaTest
 @Transactional
 @Rollback
