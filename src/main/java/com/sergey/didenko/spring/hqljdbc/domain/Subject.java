@@ -1,6 +1,8 @@
 package com.sergey.didenko.spring.hqljdbc.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "subject") //by default, using class name
@@ -10,6 +12,8 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(max = 50)
     private String name;
 
     @JoinColumn(name = "student_id") //by default : {'mappedBy'} + '_id'
