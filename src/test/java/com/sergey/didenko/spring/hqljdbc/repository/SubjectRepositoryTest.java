@@ -31,15 +31,15 @@ import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
-//TODO : Run with Liquibase
-@ContextConfiguration(classes = {LiquibaseConfiguration.class})
 @EntityScan(basePackageClasses = {
         Subject.class
 })
 @EnableJpaRepositories(basePackageClasses = {
         SubjectRepository.class
 })
+//TODO : Run with Liquibase, but also need to add Context, like above
+@ContextConfiguration(classes = {LiquibaseConfiguration.class})
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
 @Rollback

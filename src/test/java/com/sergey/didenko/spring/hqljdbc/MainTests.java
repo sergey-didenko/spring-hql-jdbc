@@ -23,8 +23,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {LiquibaseConfiguration.class})
-@EnableAutoConfiguration
 public class MainTests {
 
 	@org.junit.jupiter.api.Test

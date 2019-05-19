@@ -35,15 +35,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-//TODO : Run without Liquibase
+//TODO : Run without Liquibase, Context will be add automatically
 @TestPropertySource(properties = {
         "spring.liquibase.enabled=false"
-})
-@EntityScan(basePackageClasses = {
-        Student.class
-})
-@EnableJpaRepositories(basePackageClasses = {
-        StudentRepository.class
 })
 @DataJpaTest
 @Transactional
